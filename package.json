@@ -1,0 +1,34 @@
+{
+  "name": "pdetail-diff",
+  "version": "0.0.0",
+  "description": "Concise way to express which card combos found in a set are also set in another",
+  "main": "pdetail-diff.js",
+  "scripts": {
+    "test": "set -e; for t in test/*.js; do node $t; done"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/thlorenz/pdetail-diff.git"
+  },
+  "homepage": "https://github.com/thlorenz/pdetail-diff",
+  "dependencies": {
+    "pdetail": "~0.4.0"
+  },
+  "devDependencies": {
+    "prange": "~0.2.2",
+    "tape": "~4.8.0"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Thorsten Lorenz",
+    "email": "thlorenz@gmx.de",
+    "url": "http://thlorenz.com"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "https://github.com/thlorenz/pdetail-diff/blob/master/LICENSE"
+  },
+  "engine": {
+    "node": ">=4"
+  }
+}
