@@ -29,6 +29,6 @@
     "url": "https://github.com/thlorenz/pdetail-diff/blob/master/LICENSE"
   },
   "engine": {
-    "node": ">=4"
+    "node": ">=6"
   }
 }
