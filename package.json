@@ -1,6 +1,6 @@
 {
   "name": "pdetail-diff",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Concise way to express which card combos found in a set are also set in another",
   "main": "pdetail-diff.js",
   "scripts": {
