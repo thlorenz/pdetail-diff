@@ -3,7 +3,7 @@ const { rangeToDetails } = require('./util/range')
 const DEBUG = false
 
 const test = require('tape')
-const { createDiff, applyDiff } = require('../')
+const { createDiff, applyDiff, setWithoutBlockers } = require('../')
 
 // eslint-disable-next-line no-unused-vars
 function inspect(obj, depth) {
@@ -25,7 +25,7 @@ function check(t, { available, included, blockers = null }) {
   const availableSet = rangeToDetails(availableRange)
   for (const c of availableRemove) availableSet.delete(c)
 
-  const includedSet = rangeToDetails(includedRange)
+  const includedSet = setWithoutBlockers(rangeToDetails(includedRange), blockers)
   for (const c of includedRemove) includedSet.delete(c)
 
   const diff = createDiff(availableSet, includedSet, blockers)
@@ -56,16 +56,15 @@ test('\nroundtrip without blockers', function(t) {
 
 test('\nroundtrip with blockers', function(t) {
   [ { available: [ 'AKs-ATs, QQ+'  , [ 'KhKs' ] ]
-    , included:  [ 'AKs, KK+'      , [ 'KhKs', 'KcKd', 'AhKh', 'AsKs', 'AcKc' ] ]
-    , blockers:                      [ 'KhKs', 'KcKd', 'AhKh' ] }
+    , included:  [ 'AKs, KK+'      , [ 'AcKc' ] ]
+    , blockers:  [ 'Kh', 'As' ] }
   , { available: [ '22+'  , [ '3h3s', '2h2s' ] ]
     , included:  [ '55+'  , [ '5h5s', '5c5d' ] ]
-    , blockers:             [ '5h5s' ] }
+    , blockers:  [ '5h', '5c' ] }
   , { available: [ '22+'  , [ '3h3s', '2h2s' ] ]
     , included:  [ '55+'  , [ '5h5s', '5c5d' ] ]
-    , blockers:             [ '5h5s', '5c5d' ] }
+    , blockers:  [ '5h' ] }
   ].forEach(x => check(t, x))
 
   t.end()
 })
-

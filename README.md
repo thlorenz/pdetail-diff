@@ -37,9 +37,10 @@ If some details were missing it instead adds the included combos to the
 
 -   `available` **[Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** detail set of combos that were available to be included
 -   `included` **[Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** detail set of the available combos that were included
--   `blockers` **[Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** detail set of cards that may be part of `available` but are blocked for the `included` set
+-   `blockers` **[Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** cards that may be part of `available` combos but are blocked
+    for the `included` set i.e. `'Ah', 'Ks'`
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** `{ complete, incomplete }` `complete` being a set of combo notations for detail sets that
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** result `{ complete, incomplete }` `complete` being a set of combo notations for detail sets that
 were fully included and `incomplete` a set of detail notations of combos that were partially included
 
 ### applyDiff
@@ -49,7 +50,7 @@ Applies a diff derived via `createDiff` to the `available` set.
 **Parameters**
 
 -   `available` **[Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** detail set of combos that were available to be included
--   `blockers` **[Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** detail combos that weren't unavailable to be included when diff was created
+-   `blockers` **[Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** cards that weren't available to be included when diff was created, i.e. `'Ah', 'Ks'`
     should be the same as the ones passed to `createDiff` to arrive at the same `included` set
 
 Returns **[Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)** included combos for which the diff from the available ones was created

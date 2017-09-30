@@ -1,8 +1,10 @@
 const { rangeFromDetail } = require('pdetail')
 
-function allMissingAreBlockers(set, arSet, blockers) {
+function allMissingHaveBlocker(set, arSet, blockers) {
   for (const c of arSet) {
-    if (set.has(c) || blockers.has(c)) continue
+    if (set.has(c)) continue
+    const [ r1, s1, r2, s2 ] = c
+    if (blockers.has(r1 + s1) || blockers.has(r2 + s2)) continue
     return false
   }
   return true
@@ -12,7 +14,9 @@ function setWithoutBlockers(set, blockers) {
   if (blockers == null || blockers.size === 0 || set.size === 0) return set
   const res = new Set()
   for (const c of set) {
-    if (!blockers.has(c)) res.add(c)
+    const [ r1, s1, r2, s2 ] = c
+    if (blockers.has(r1 + s1) || blockers.has(r2 + s2)) continue
+    res.add(c)
   }
   return res
 }
@@ -35,8 +39,9 @@ function setWithoutBlockers(set, blockers) {
  * @function
  * @param {Set.<string>} available detail set of combos that were available to be included
  * @param {Set.<string>} included  detail set of the available combos that were included
- * @param {Set.<string>} blockers  detail set of cards that may be part of `available` but are blocked for the `included` set
- * @return {Object} `{ complete, incomplete }` `complete` being a set of combo notations for detail sets that
+ * @param {Set.<string>} blockers  cards that may be part of `available` combos but are blocked
+ * for the `included` set i.e. `'Ah', 'Ks'`
+ * @return {Object} result `{ complete, incomplete }` `complete` being a set of combo notations for detail sets that
  * were fully included and `incomplete` a set of detail notations of combos that were partially included
  */
 function createDiff(available, included, blockers) {
@@ -52,7 +57,7 @@ function createDiff(available, included, blockers) {
       return complete.add(k)
     }
     // are the only missing combos blockers?
-    if (blockers != null && allMissingAreBlockers(set, arSet, blockers)) {
+    if (blockers != null && allMissingHaveBlocker(set, arSet, blockers)) {
       return complete.add(k)
     }
 
@@ -83,9 +88,9 @@ function createDiff(available, included, blockers) {
  * @name applyDiff
  * @function
  * @param {Set.<string>} available detail set of combos that were available to be included
- * @param {Object.<Set.<string>, Set.<string>> diff `{ complete, incomplete }` that is applied to the available set
+ * @param {Object> diff `{ complete, incomplete }` `Set.<string>, Set.<string>` that is applied to the available set
  * to reconstruct the original `included` set
- * @param {Set.<string>} blockers detail combos that weren't unavailable to be included when diff was created
+ * @param {Set.<string>} blockers cards that weren't available to be included when diff was created, i.e. `'Ah', 'Ks'`
  * should be the same as the ones passed to `createDiff` to arrive at the same `included` set
  * @return {Set} included combos for which the diff from the available ones was created
  */
@@ -109,4 +114,4 @@ function applyDiff(available, diff, blockers) {
   return included
 }
 
-module.exports = { createDiff, applyDiff }
+module.exports = { createDiff, applyDiff, setWithoutBlockers }
